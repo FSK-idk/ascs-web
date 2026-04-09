@@ -1,7 +1,7 @@
 body {
   background-color: #1e1e2e;
   color: #cdd6f4;
-  font-family: 'Monaspace Neon', 'Courier New', monospace;
+  font-family: "Monaspace Neon", "Courier New", monospace;
   margin: 0;
   padding: 0;
 }
@@ -12,7 +12,8 @@ body {
   padding: 20px;
 }
 
-h1, h2 {
+h1,
+h2 {
   color: #cba6f7;
   text-align: center;
 }
@@ -64,7 +65,7 @@ h1, h2 {
   border: 1px solid #cba6f7;
   color: #cba6f7;
   padding: 0.5rem;
-  font-family: 'Monaspace Neon', 'Courier New', monospace;
+  font-family: "Monaspace Neon", "Courier New", monospace;
 }
 
 .custom-input::placeholder {
@@ -89,14 +90,14 @@ h1, h2 {
 }
 
 .btn-outline-danger {
- border-color: #f38ba8;
- color: #f38ba8;
- transition: all 0.3s ease;
+  border-color: #f38ba8;
+  color: #f38ba8;
+  transition: all 0.3s ease;
 }
 
 .btn-outline-danger:hover {
- background-color: #f38ba8;
- color: #cdd6f4;
+  background-color: #f38ba8;
+  color: #cdd6f4;
 }
 
 .custom-input[type="file"] {
@@ -104,7 +105,7 @@ h1, h2 {
   border: 1px solid #cba6f7;
   color: #b4befeb3;
   background-color: #1e1e2e;
-  font-family: 'Monaspace Neon', 'Courier New', monospace;
+  font-family: "Monaspace Neon", "Courier New", monospace;
 }
 
 .custom-input[type="file"]::file-selector-button {
@@ -112,7 +113,7 @@ h1, h2 {
   border: none;
   color: #1e1e2e;
   padding: 0.5rem 1rem;
-  font-family: 'Monaspace Neon', 'Courier New', monospace;
+  font-family: "Monaspace Neon", "Courier New", monospace;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -120,4 +121,3 @@ h1, h2 {
 .custom-input[type="file"]::file-selector-button:hover {
   background-color: #89b4fa;
 }
-
