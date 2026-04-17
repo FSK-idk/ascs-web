@@ -1,3 +1,16 @@
+<?php
+
+$link = mysqli_connect("127.0.0.1", "root", "123456", "first");
+$id = $_GET['id'];
+$sql = "
+  SELECT * FROM posts WHERE id=$id
+";
+$result = mysqli_query($link, $sql);
+$rows = mysqli_fetch_array($result);
+$title = $rows['title'];
+$main_text = $rows['main_text'];
+
+?>
 <!doctype html>
 <html>
   <head>
@@ -15,12 +28,19 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="container d-flex justify-content-center align-items-center vh-100">
       <div class="row">
-        <div class="col-12 text-center"></div>
+        <div class="col-12 text-center">
+          <?php
+
+          echo "<h1> $title </h1>";
+          echo "<p> $main_text </p>";
+
+          ?>
+        </div>
       </div>
     </div>
   </body>

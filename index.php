@@ -15,17 +15,40 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="container d-flex justify-content-center align-items-center vh-100">
       <div class="row">
         <div class="col-12 text-center">
           <h1 class="mb-4">Login In!</h1>
+          <?php
+
+          if (!isset($_COOKIE['User'])) {
+
+          ?>
           <div class="d-flex justify-content-center gap-3">
-            <a href="./registration.html" class="btn btn-primary">Registration</a>
-            <a href="./login.html" class="btn btn-primary">Login</a>
+              <a href="/registration.php" class="btn btn-primary">Registration</a>
+              <a href="/login.php" class="btn btn-primary">Login</a>
           </div>
+          <?php
+
+          } else {
+              $link = mysqli_connect('localhost', 'root', '123456', 'first');
+              $sql = "
+                SELECT * FROM posts
+              ";
+              $result = mysqli_query($link, $sql);
+              if (mysqli_num_rows($result) > 0) {
+                  while ($post = mysqli_fetch_array($result)) {
+                      echo "<a href='/posts.php?id=" . $post["id"] . "'>" . $post["title"] . "</a><br>";
+                  }
+              } else {
+                  echo "No posts";
+              }
+          }
+
+          ?>
         </div>
       </div>
     </div>

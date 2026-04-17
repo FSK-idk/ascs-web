@@ -15,21 +15,52 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="container d-flex justify-content-center align-items-center vh-100">
       <div class="row">
         <div class="col-12 text-center">
           <h1 class="mb-4">Login</h1>
-          <form action="/registration.html" method="POST" class="d-flex flex-column gap-3">
+          <form action="/login.php" method="POST" class="d-flex flex-column gap-3">
             <input type="text" name="login" class="form-control-custom-input" placeholder="login" />
             <input type="password" name="password" class="form-control-custom-input" placeholder="password" />
             <button class="btn btn-primary" type="submit" name="submit">Login</button>
-            <p class="mt-3">Don't have an account? <a href="./registration.html">Register</a></p>
+            <p class="mt-3">Don't have an account? <a href="/registration.php">Register</a></p>
           </form>
         </div>
       </div>
     </div>
   </body>
 </html>
+<?php
+
+require_once("db.php");
+if (isset($_COOKIE['User'])) {
+  header("Location: /profile.php");
+  exit();
+}
+
+$link = mysqli_connect("127.0.0.1", "root", "123456", "first");
+
+if (isset($_POST['submit'])) {
+  $login = $_POST['login'];
+  $password = $_POST['password'];
+
+  if (!$login || !$password) {
+    die("Input all parameters");
+  }
+
+  $sql = "
+    SELECT * FROM users WHERE username='$login' AND password='$password'
+  ";
+  $result = mysqli_query($link, $sql);
+  if (mysqli_num_rows($result) == 1) {
+    setcookie("User", $login, time()+7200);
+    header("Location: /profile.php");
+  } else {
+    echo "Incorrect login or password";
+  }
+}
+
+?>

@@ -15,15 +15,28 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark p-3">
       <div class="container-fluid">
         <a href="#" class="navbar-brand d-flex align-items-center">
-          <img src="./logo.jpg" alt="site-logo" class="me-2" />
+          <img src="/logo.jpg" alt="site-logo" class="me-2" />
           <span class="text-light">History</span>
         </a>
+        <?php
+
+        if (isset($_COOKIE['User'])) {
+
+        ?>
+          <form action="/logout.php" method="POST" class="d-flex">
+            <button class="btn btn-outline-danger" type="submit">Logout</button>
+          </form>
+        <?php
+
+        }
+
+        ?>
       </div>
     </nav>
     <div class="container mt-5">
@@ -31,18 +44,18 @@
         <div class="story-text">
           <p>Mew mewmew mowemme wmemoweo mewmweooemwem oem memmewoewww.</p>
         </div>
-        <img src="./profile.jpg" alt="profile photo" class="custom-img" />
+        <img src="/profile.jpg" alt="profile photo" class="custom-img" />
       </div>
       <div class="text-center mt-4">
         <button id="toggleButton" class="btn btn-primary">Open</button>
       </div>
       <div id="extraImage" class="mt-3 text-center" style="display: none">
-        <img class="custom-img" src="./secret.jpg" alt="profile photo" />
+        <img class="custom-img" src="/secret.jpg" alt="profile photo" />
       </div>
       <div class="mt-5">
         <h2 class="text-center mb-4">Add New Post</h2>
         <form
-          action="profile.html"
+          action="/profile.php"
           method="post"
           id="postForm"
           class="d-flex flex-column gap-3"
@@ -78,6 +91,52 @@
         </form>
       </div>
     </div>
-    <script src="./js/script.js"></script>
+    <script src="/js/script.js"></script>
   </body>
 </html>
+<?php
+
+if (!isset($_COOKIE['User'])) {
+    header('Location: /login.php');
+    exit();
+}
+
+require_once('db.php');
+$link = mysqli_connect('127.0.0.1', 'root', '123456', 'first');
+
+if (isset($_POST['submit'])) {
+  $title = $_POST['postTitle'];
+  $main_text = $_POST['postContent'];
+
+  if (!$title || !$main_text) {
+    die("No data post");
+  }
+  $sql = "
+    INSERT INTO posts (title, main_text) VALUES ('$title', '$main_text')
+  ";
+
+  if (!mysqli_query($link, $sql)) {
+    die("Failed to insert data post");
+  }
+
+  if(!empty($_FILES["file"])) {
+      if (
+        (
+          (@$_FILES["file"]["type"] == "image/gif")
+          || (@$_FILES["file"]["type"] == "image/jpeg")
+          || (@$_FILES["file"]["type"] == "image/jpg")
+          || (@$_FILES["file"]["type"] == "image/pjpeg")
+          || (@$_FILES["file"]["type"] == "image/x-png")
+          || (@$_FILES["file"]["type"] == "image/png")
+        )
+        && (@$_FILES["file"]["size"] < 1024000)
+      ) {
+        move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
+        echo "Load in: " . "upload/" . $_FILES["file"]["name"];
+      } else {
+        echo "Failed to upload";
+      }
+  }
+}
+
+?>
