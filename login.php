@@ -41,7 +41,7 @@ if (isset($_COOKIE['User'])) {
   exit();
 }
 
-$link = mysqli_connect("db", "root", "123456", "first");
+$link = mysqli_connect("localhost", "root", "123456", "first");
 
 if (isset($_POST['submit'])) {
   $login = $_POST['login'];

@@ -1,7 +1,8 @@
 <?php
 
-$link = mysqli_connect("db", "root", "123456", "first");
+$link = mysqli_connect("localhost", "root", "123456", "first");
 $id = $_GET['id'];
+settype($id, 'integer');
 $sql = "
   SELECT * FROM posts WHERE id=$id
 ";

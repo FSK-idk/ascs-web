@@ -34,7 +34,7 @@
           <?php
 
           } else {
-              $link = mysqli_connect('db', 'root', '123456', 'first');
+              $link = mysqli_connect('localhost', 'root', '123456', 'first');
               $sql = "
                 SELECT * FROM posts
               ";
