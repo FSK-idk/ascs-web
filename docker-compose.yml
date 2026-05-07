@@ -17,6 +17,7 @@ services:
     networks:
       custom_network:
         ipv4_address: 172.20.0.22
+
   db:
     image: mariadb
     environment:
@@ -29,8 +30,39 @@ services:
     networks:
       custom_network:
         ipv4_address: 172.20.0.23
+
+  open-appsec-agent:
+    image: ghcr.io/openappsec/agent:latest
+    container_name: open-appsec-agent
+    ipc: host
+    environment:
+      - registered_server=NGINX
+      - AGENT_TOKEN=${AGENT_TOKEN}
+    volumes:
+      - ./openappsec/config:/etc/cp/conf
+      - ./openappsec/data:/etc/cp/data
+      - ./openappsec/debug:/etc/cp/nano_agent
+    networks:
+      - custom_network
+
+  open-appsec-nginx:
+    image: ghcr.io/openappsec/nginx-attachment:latest
+    container_name: open-appsec-nginx
+    depends_on:
+      - web
+      - open-appsec-agent
+    ipc: host
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/web.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      custom_network:
+        ipv4_address: 172.20.0.24
+
 volumes:
   db_data: {}
+
 networks:
   custom_network:
     driver: bridge

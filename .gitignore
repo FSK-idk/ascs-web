@@ -1,0 +1,4 @@
+.env
+openappsec/config/*
+openappsec/data/*
+openappsec/debug/*
